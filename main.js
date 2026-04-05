@@ -19,13 +19,13 @@ if(dotenv.ENV === 'dev') {
 } else if(dotenv.ENV === 'prod') {
 	_CONFIG.env           = 'prod';
 	_CONFIG.isDev         = false;
-	_CONFIG.adBlockPath   = 'C:\\zWWW\\000 - Patryk Chowratowicz\\behancelikebot\\lib\\uBlock0.chromium';
-	_CONFIG.chromeExePath = 'C:\\zWWW\\000 - Patryk Chowratowicz\\behancelikebot\\lib\\chrome-win\\chrome.exe';
+	_CONFIG.adBlockPath   = './lib\\lib\\uBlock0.chromium';
+	_CONFIG.chromeExePath = './lib\\lib\\chrome-win\\chrome.exe';
 }
 
 function createMainWindow(){
 	const mainWindow = new BrowserWindow({
-		title: "BehanceLikeBot",
+		title: "SocialAutoPilot",
 		width: _CONFIG.isDev ? 1000 : 500,
 		height: 600,
 		webPreferences: {

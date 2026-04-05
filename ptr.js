@@ -17,8 +17,8 @@ if(dotenv.ENV === 'dev') {
 } else if(dotenv.ENV === 'prod') {
 	_CONFIG.env           = 'prod';
 	_CONFIG.isDev         = false;
-	_CONFIG.adBlockPath   = 'C:\\zWWW\\000 - Patryk Chowratowicz\\behancelikebot\\lib\\uBlock0.chromium';
-	_CONFIG.chromeExePath = 'C:\\zWWW\\000 - Patryk Chowratowicz\\behancelikebot\\lib\\chrome-win\\chrome.exe';
+	_CONFIG.adBlockPath   = './lib\\uBlock0.chromium';
+	_CONFIG.chromeExePath = './lib\\chrome-win\\chrome.exe';
 }
 
 let browser;
@@ -51,7 +51,7 @@ module.exports.runBrowser = async function runBrowser(){
         args,
         headless: false,
         ignoreHTTPSErrors: true,
-		executablePath: 'C:\\zWWW\\000 - Patryk Chowratowicz\\behancelikebot\\lib\\chrome-win\\chrome.exe',
+		executablePath: './lib\\chrome-win\\chrome.exe',
         //userDataDir: './tmp'
     };
 	browser = await puppeteer.launch(options);
@@ -65,14 +65,14 @@ module.exports.closeBrowser = async function closeBrowser(){
 /* (async () => { //main
 	
 	async function toLoginPage(){
-		await page.click('button.Btn-tertiary-Z8Q.js-adobeid-signin');
+		await page.click('button.login-button');
 		await page.waitForTimeout(10000);
 	}
 	
 	async function login(){
 		await page.type('input[type=email]', dotenv.EMAIL);
 		await page.waitForTimeout(2000);
-		await page.click('button[data-id="EmailPage-ContinueButton"]');
+		await page.click('button.continue');
 		await page.waitForTimeout(4000);
 	
 		const captcha = await readLine('Enter auth SMS code: ');
@@ -84,27 +84,27 @@ module.exports.closeBrowser = async function closeBrowser(){
 	
 		await page.type('input[type=password]', dotenv.PASS, {delay: 321});
 		await page.waitForTimeout(250);
-		await page.click('button[aria-label="Kontynuuj"]');
+		await page.click('button.submit');
 		await page.waitForTimeout(10000);
 	}
 	
 	async function likeNewPosts(){
 		await page.waitForTimeout(2000);
-		await page.goto('https://www.behance.net/search/projects?tracking_source=typeahead_nav_suggestion&search=social+media&sort=published_date', );
+		await page.goto('https://example.com/search?q=social+mediahttps://example.com/search/projects?tracking_source=typeahead_nav_suggestion&search=social+media&sort=published_datesort=published_date', );
 		await page.waitForTimeout(12000);
 		await page.click('a[title="Łącze do projektu"]');
 		await page.waitForTimeout(2000);
 
 		for(i=0; i<1000;i++){
-			let likeBtn = await page.$('.Appreciate-wrapper-REw.Project-appreciateTopSidebarIcon-_E7');
-			let LikedBtn = !(await page.$('.Appreciate-wrapper-REw.Project-appreciateTopSidebarIcon-_E7:not(.Appreciate-appreciated-OT4)'));
+			let likeBtn = await page.$('.like-button');
+			let LikedBtn = !(await page.$('.like-button:not(.liked)'));
 			//TODO: bug if give like should also use arrowRight. Maybe it need 6s
 			if( likeBtn && LikedBtn ){
 				await page.keyboard.press('ArrowRight');
 				console.log('Project not liked \t\t -');
 			}
 			else if(likeBtn && !LikedBtn){
-				await page.click('.Appreciate-wrapper-REw.Project-appreciateTopSidebarIcon-_E7:not(.Appreciate-appreciated-OT4)')
+				await page.click('.like-button:not(.liked)')
 				console.log('Project liked \t\t +');
 				await page.keyboard.press('ArrowRight', {delay: 700});
 			}
@@ -137,7 +137,7 @@ module.exports.closeBrowser = async function closeBrowser(){
 	const preloadFile = fs.readFileSync('./ptr-preload.js', 'utf8');
     await page.evaluateOnNewDocument(preloadFile);
 	await page.setViewport({ width: 1500, height: 750 })
-	await page.goto('https://www.behance.net/');
+	await page.goto('https://example.com/');
 	await page.waitForTimeout(12000);
 	const isUserLoggedOut = await page.$('body.logged-out');
 	if(isUserLoggedOut){
